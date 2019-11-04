@@ -52,6 +52,12 @@ struct _ceval_runtime_state {
     struct _gil_runtime_state gil;
 };
 
+struct _ceval_interpreter_state {
+    /* Copied from struct _ceval_runtime_state, open question of whether
+       to remove the field from there. */
+    int tracing_possible;
+};
+
 /* interpreter state */
 
 typedef PyObject* (*_PyFrameEvalFunction)(struct _frame *, int);
@@ -134,6 +140,8 @@ struct _is {
             int atbol;
         } listnode;
     } parser;
+
+    struct _ceval_interpreter_state ceval;
 };
 
 PyAPI_FUNC(struct _is*) _PyInterpreterState_LookUpID(PY_INT64_T);

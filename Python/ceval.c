@@ -4713,6 +4713,9 @@ PyEval_SetTrace(Py_tracefunc func, PyObject *arg)
     _PyRuntimeState *runtime = &_PyRuntime;
     PyThreadState *tstate = _PyRuntimeState_GetThreadState(runtime);
     PyObject *temp = tstate->c_traceobj;
+    // Should we also set interp_state->ceval.tracing_possible to the same here?
+    // If so, how do we get the right interpreter state struct from
+    // runtime->interpreters, do we just want runtime->interpreters->main?
     runtime->ceval.tracing_possible += (func != NULL) - (tstate->c_tracefunc != NULL);
     Py_XINCREF(arg);
     tstate->c_tracefunc = NULL;
