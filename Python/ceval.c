@@ -4712,10 +4712,11 @@ PyEval_SetTrace(Py_tracefunc func, PyObject *arg)
 
     _PyRuntimeState *runtime = &_PyRuntime;
     PyThreadState *tstate = _PyRuntimeState_GetThreadState(runtime);
+    PyInterpreterState *interp = _PyInterpreterState_Get();
     PyObject *temp = tstate->c_traceobj;
     /* Remove runtime tracing_possible flag at some point? */
     runtime->ceval.tracing_possible += (func != NULL) - (tstate->c_tracefunc != NULL);
-    tstate->interp->ceval.tracing_possible += (func != NULL) - (tstate->c_tracefunc != NULL);
+    interp->ceval.tracing_possible += (func != NULL) - (tstate->c_tracefunc != NULL);
     Py_XINCREF(arg);
     tstate->c_tracefunc = NULL;
     tstate->c_traceobj = NULL;
